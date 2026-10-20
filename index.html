@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Helpers Directory</title>
+  <style>
+    :root {
+      --bg: #0f0f10;
+      --card: #17181a;
+      --text: #f3f3f3;
+      --muted: #a7a7aa;
+      --accent: #7dd3fc;
+      --border: #2a2c30;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 2rem 1rem 3rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .subtitle {
+      margin: 0 0 2rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    h2 {
+      margin: 0 0 0.8rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    li {
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    input {
+      width: 100%;
+      margin-top: 0.35rem;
+      padding: 0.45rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #101114;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input::placeholder {
+      color: #7a7d84;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>AI Helpers</h1>
+    <p class="subtitle">Free AI tools by category. Add your own note under each link.</p>
+
+    <div class="grid">
+      <section>
+        <h2>Graphic AI</h2>
+        <ul>
+          <li><a href="https://www.canva.com/magic-studio/" target="_blank" rel="noopener noreferrer">Canva Magic Studio</a><input data-id="graphic-canva" placeholder="Add comment..." /></li>
+          <li><a href="https://www.microsoft.com/en-us/designer" target="_blank" rel="noopener noreferrer">Microsoft Designer</a><input data-id="graphic-designer" placeholder="Add comment..." /></li>
+          <li><a href="https://www.clipdrop.co/" target="_blank" rel="noopener noreferrer">Clipdrop</a><input data-id="graphic-clipdrop" placeholder="Add comment..." /></li>
+          <li><a href="https://www.adobe.com/express/" target="_blank" rel="noopener noreferrer">Adobe Express</a><input data-id="graphic-express" placeholder="Add comment..." /></li>
+          <li><a href="https://www.photoroom.com/tools/background-remover" target="_blank" rel="noopener noreferrer">Photoroom Background Remover</a><input data-id="graphic-photoroom" placeholder="Add comment..." /></li>
+          <li><a href="https://pixlr.com/" target="_blank" rel="noopener noreferrer">Pixlr</a><input data-id="graphic-pixlr" placeholder="Add comment..." /></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Video AI</h2>
+        <ul>
+          <li><a href="https://www.capcut.com/tools/ai-video-generator" target="_blank" rel="noopener noreferrer">CapCut AI Video Generator</a><input data-id="video-capcut" placeholder="Add comment..." /></li>
+          <li><a href="https://runwayml.com/" target="_blank" rel="noopener noreferrer">Runway</a><input data-id="video-runway" placeholder="Add comment..." /></li>
+          <li><a href="https://www.opus.pro/" target="_blank" rel="noopener noreferrer">Opus Clip</a><input data-id="video-opus" placeholder="Add comment..." /></li>
+          <li><a href="https://www.veed.io/tools/ai-video" target="_blank" rel="noopener noreferrer">Veed AI Tools</a><input data-id="video-veed" placeholder="Add comment..." /></li>
+          <li><a href="https://pictory.ai/" target="_blank" rel="noopener noreferrer">Pictory</a><input data-id="video-pictory" placeholder="Add comment..." /></li>
+          <li><a href="https://www.lumen5.com/" target="_blank" rel="noopener noreferrer">Lumen5</a><input data-id="video-lumen5" placeholder="Add comment..." /></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Audio AI</h2>
+        <ul>
+          <li><a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a><input data-id="audio-elevenlabs" placeholder="Add comment..." /></li>
+          <li><a href="https://www.audacityteam.org/" target="_blank" rel="noopener noreferrer">Audacity + AI Plugins</a><input data-id="audio-audacity" placeholder="Add comment..." /></li>
+          <li><a href="https://podcastle.ai/" target="_blank" rel="noopener noreferrer">Podcastle</a><input data-id="audio-podcastle" placeholder="Add comment..." /></li>
+          <li><a href="https://www.adobe.com/products/podcast.html" target="_blank" rel="noopener noreferrer">Adobe Podcast</a><input data-id="audio-adobe-podcast" placeholder="Add comment..." /></li>
+          <li><a href="https://audo.ai/" target="_blank" rel="noopener noreferrer">Audo Studio</a><input data-id="audio-audo" placeholder="Add comment..." /></li>
+          <li><a href="https://vocalremover.org/" target="_blank" rel="noopener noreferrer">Vocal Remover</a><input data-id="audio-vocalremover" placeholder="Add comment..." /></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Research AI</h2>
+        <ul>
+          <li><a href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer">Perplexity</a><input data-id="research-perplexity" placeholder="Add comment..." /></li>
+          <li><a href="https://consensus.app/" target="_blank" rel="noopener noreferrer">Consensus</a><input data-id="research-consensus" placeholder="Add comment..." /></li>
+          <li><a href="https://elicit.com/" target="_blank" rel="noopener noreferrer">Elicit</a><input data-id="research-elicit" placeholder="Add comment..." /></li>
+          <li><a href="https://www.connectedpapers.com/" target="_blank" rel="noopener noreferrer">Connected Papers</a><input data-id="research-connected" placeholder="Add comment..." /></li>
+          <li><a href="https://typeset.io/" target="_blank" rel="noopener noreferrer">SciSpace</a><input data-id="research-scispace" placeholder="Add comment..." /></li>
+          <li><a href="https://www.semanticscholar.org/" target="_blank" rel="noopener noreferrer">Semantic Scholar</a><input data-id="research-semantic" placeholder="Add comment..." /></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Coding AI</h2>
+        <ul>
+          <li><a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">GitHub Copilot (Free plan available)</a><input data-id="coding-copilot" placeholder="Add comment..." /></li>
+          <li><a href="https://codeium.com/" target="_blank" rel="noopener noreferrer">Codeium</a><input data-id="coding-codeium" placeholder="Add comment..." /></li>
+          <li><a href="https://aws.amazon.com/codewhisperer/" target="_blank" rel="noopener noreferrer">Amazon CodeWhisperer</a><input data-id="coding-codewhisperer" placeholder="Add comment..." /></li>
+          <li><a href="https://www.tabnine.com/" target="_blank" rel="noopener noreferrer">Tabnine</a><input data-id="coding-tabnine" placeholder="Add comment..." /></li>
+          <li><a href="https://www.replit.com/ai" target="_blank" rel="noopener noreferrer">Replit AI</a><input data-id="coding-replit" placeholder="Add comment..." /></li>
+          <li><a href="https://sourcegraph.com/cody" target="_blank" rel="noopener noreferrer">Sourcegraph Cody</a><input data-id="coding-cody" placeholder="Add comment..." /></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const inputs = document.querySelectorAll('input[data-id]');
+    const storagePrefix = 'ai-helper-comment:';
+
+    inputs.forEach((input) => {
+      const key = storagePrefix + input.dataset.id;
+      input.value = localStorage.getItem(key) || '';
+
+      input.addEventListener('input', () => {
+        localStorage.setItem(key, input.value);
+      });
+    });
+  </script>
+</body>
+</html>
