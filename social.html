@@ -1,0 +1,259 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Lookup</title>
+  <style>
+    :root { --bg:#f7f7f8; --card:#fff; --text:#111; --muted:#666; --border:#ddd; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 1rem 0;
+    }
+    .help-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    main {
+      width: 100%;
+      max-width: 560px;
+      margin: 1rem auto;
+      padding: 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    h1 { margin-top: 0; }
+    .row { margin-bottom: 1rem; }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+    input, select, button.primary {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    button.primary {
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      border-color: #111;
+    }
+    .error {
+      color: #b00020;
+      margin-top: 0.6rem;
+      min-height: 1.2rem;
+      font-size: 0.95rem;
+    }
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    footer a { color: inherit; }
+
+    /* Help modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal {
+      width: 100%;
+      max-width: 460px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 1rem 1rem 0.75rem;
+    }
+    .modal h2 { margin-top: 0; margin-bottom: 0.5rem; }
+    .modal p { margin-top: 0.45rem; line-height: 1.4; }
+    .modal .close-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.75rem;
+    }
+    .modal .close-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="help-btn" id="helpBtn" type="button">Help</button>
+  </header>
+
+  <main>
+    <h1>Social Lookup</h1>
+
+    <div class="row">
+      <label for="platform">Platform</label>
+      <select id="platform">
+        <option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="x">X</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="socialInput">Username/ID or profile URL</label>
+      <input id="socialInput" type="text" placeholder="e.g. zuck or https://facebook.com/zuck" />
+    </div>
+
+    <button class="primary" id="goBtn" type="button">Go to Profile</button>
+    <div class="error" id="errorMsg"></div>
+  </main>
+
+  <footer>
+    Built by You •
+    <a href="https://github.com/your-username/your-repo" target="_blank" rel="noopener noreferrer">
+      View source on GitHub
+    </a>
+  </footer>
+
+  <div class="modal-backdrop" id="helpModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <h2 id="helpTitle">How to use</h2>
+      <p>1) Pick a platform.</p>
+      <p>2) Paste a username/ID or full profile URL.</p>
+      <p>3) Click <strong>Go to Profile</strong>.</p>
+      <div class="close-row">
+        <button class="close-btn" id="closeHelpBtn" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sanitizeHandle(value) {
+      return value.trim().replace(/^@+/, "");
+    }
+
+    function fromUrl(raw, acceptedHosts) {
+      try {
+        const u = new URL(raw);
+        const host = u.hostname.replace(/^www\./, "").toLowerCase();
+        if (!acceptedHosts.includes(host)) return null;
+        const firstPath = u.pathname.split("/").filter(Boolean)[0];
+        return firstPath || null;
+      } catch {
+        return null;
+      }
+    }
+
+    const platforms = {
+      facebook: {
+        hosts: ["facebook.com", "m.facebook.com"],
+        base: "https://www.facebook.com/"
+      },
+      instagram: {
+        hosts: ["instagram.com"],
+        base: "https://www.instagram.com/"
+      },
+      tiktok: {
+        hosts: ["tiktok.com"],
+        base: "https://www.tiktok.com/@",
+        prefixAt: true
+      },
+      x: {
+        hosts: ["x.com", "twitter.com"],
+        base: "https://x.com/"
+      }
+    };
+
+    const platformEl = document.getElementById("platform");
+    const inputEl = document.getElementById("socialInput");
+    const goBtn = document.getElementById("goBtn");
+    const errorEl = document.getElementById("errorMsg");
+
+    const helpBtn = document.getElementById("helpBtn");
+    const helpModal = document.getElementById("helpModal");
+    const closeHelpBtn = document.getElementById("closeHelpBtn");
+
+    function buildUrl(platformKey, value) {
+      const config = platforms[platformKey];
+      if (!config) return null;
+
+      const raw = value.trim();
+      if (!raw) return null;
+
+      let handle = null;
+
+      if (/^https?:\/\//i.test(raw)) {
+        handle = fromUrl(raw, config.hosts);
+      } else {
+        handle = sanitizeHandle(raw);
+      }
+
+      if (!handle || !/^[a-zA-Z0-9._-]+$/.test(handle)) return null;
+
+      if (config.prefixAt) {
+        handle = handle.replace(/^@+/, "");
+      }
+
+      return config.base + handle;
+    }
+
+    function goToProfile() {
+      errorEl.textContent = "";
+      const url = buildUrl(platformEl.value, inputEl.value);
+
+      if (!url) {
+        errorEl.textContent = "Please enter a valid username/ID or URL for the selected platform.";
+        return;
+      }
+
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function openHelp() {
+      helpModal.style.display = "flex";
+      helpModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeHelp() {
+      helpModal.style.display = "none";
+      helpModal.setAttribute("aria-hidden", "true");
+    }
+
+    goBtn.addEventListener("click", goToProfile);
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") goToProfile();
+    });
+
+    helpBtn.addEventListener("click", openHelp);
+    closeHelpBtn.addEventListener("click", closeHelp);
+    helpModal.addEventListener("click", (e) => {
+      if (e.target === helpModal) closeHelp();
+    });
+  </script>
+</body>
+</html>
